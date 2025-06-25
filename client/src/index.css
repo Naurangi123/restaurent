@@ -1,0 +1,26 @@
+@import "tailwindcss";
+@layer utilities {
+    .no-scrollbar::-webkit-scrollbar {
+      scrollbar-width: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  }
+
+/* Add this CSS to your global styles */
+.bg-premium {
+  background: linear-gradient(135deg, #ff7e5f, #feb47b);
+  animation: gradientAnimation 5s ease infinite;
+}
+
+@keyframes gradientAnimation {
+  0% {
+    background: linear-gradient(135deg, #ff7e5f, #feb47b);
+  }
+  50% {
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
+  }
+
+}

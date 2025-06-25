@@ -21,9 +21,11 @@ AUTH_USER_MODEL = 'authapp.User'
 SECRET_KEY = 'django-insecure-#79q8so%=xwtb7%rom@1(v71ezy^%u!dxjcy*)e#hw&sbz=e3+'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'fallback-secret-key')
+DEBUG = os.environ.get('DEBUG', 'False') == 'True'
+ALLOWED_HOSTS = ['your-render-app.onrender.com', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -83,16 +85,30 @@ WSGI_APPLICATION = 'restaurent_management_system.wsgi.application'
 
 
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'restaurant_db',
+#         'USER': 'root',
+#         'PASSWORD': 'Acstech@2025',
+#         'HOST': 'localhost',
+#         'PORT': '3306',
+#     }
+# }
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'restaurant_db',
-        'USER': 'root',
-        'PASSWORD': 'Acstech@2025',
-        'HOST': 'localhost',
-        'PORT': '3306',
-    }
+    'default': dj_database_url.config(
+        default=os.environ.get('DATABASE_URL'), 
+        conn_max_age=600, 
+        ssl_require=True
+    )
 }
+
+
+SECURE_SSL_REDIRECT = not DEBUG
+SESSION_COOKIE_SECURE = not DEBUG
+CSRF_COOKIE_SECURE = not DEBUG
+
 
 
 # Password validation

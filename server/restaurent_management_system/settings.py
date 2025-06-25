@@ -16,14 +16,10 @@ AUTH_USER_MODEL = 'authapp.User'
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = 'django-insecure-#79q8so%=xwtb7%rom@1(v71ezy^%u!dxjcy*)e#hw&sbz=e3+'
-
 SECRET_KEY = 'django-insecure-#79q8so%=xwtb7%rom@1(v71ezy^%u!dxjcy*)e#hw&sbz=e3+'
 
-# SECURITY WARNING: don't run with debug turned on in production!
 
-
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'fallback-secret-key')
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 ALLOWED_HOSTS = ['https://restaurent-8fsw.onrender.com', 'localhost', '127.0.0.1']
 
@@ -105,9 +101,9 @@ DATABASES = {
 }
 
 
-SECURE_SSL_REDIRECT = not DEBUG
-SESSION_COOKIE_SECURE = not DEBUG
-CSRF_COOKIE_SECURE = not DEBUG
+SECURE_SSL_REDIRECT = os.environ.get('SECURE_SSL_REDIRECT'),
+SESSION_COOKIE_SECURE = os.environ.get('SESSION_COOKIE_SECURE'),
+CSRF_COOKIE_SECURE = os.environ.get('CSRF_COOKIE_SECURE'),
 
 
 
@@ -137,8 +133,6 @@ REST_FRAMEWORK = {
     # ]
     
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        # 'rest_framework.authentication.BasicAuthentication',
-        # 'rest_framework.authentication.TokenAuthentication',
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
     'DEFAULT_FILTER_BACKENDS': [

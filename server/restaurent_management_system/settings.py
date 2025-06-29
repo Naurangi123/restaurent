@@ -15,13 +15,13 @@ AUTH_USER_MODEL = 'authapp.User'
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-#79q8so%=xwtb7%rom@1(v71ezy^%u!dxjcy*)e#hw&sbz=e3+'
+# # SECURITY WARNING: keep the secret key used in production secret!
+# SECRET_KEY = 'django-insecure-#79q8so%=xwtb7%rom@1(v71ezy^%u!dxjcy*)e#hw&sbz=e3+'
 
 
-SECRET_KEY = os.environ.get('SECRET_KEY')
+SECRET_KEY = os.environ.get('SECRET_KEY','django-insecure-#79q8so%=xwtb7%rom@1(v71ezy^%u!dxjcy*)e#hw&sbz=e3+')
 DEBUG = os.environ.get('DEBUG', 'False') == 'True'
-ALLOWED_HOSTS = ['https://restaurent-8fsw.onrender.com', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['restaurent-8fsw.onrender.com', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -144,8 +144,8 @@ REST_FRAMEWORK = {
 }
 
 # stripe settings
-STRIPE_PUBLIC_KEY = os.environ.get('STRIPE_PUBLIC_KEY'),  
-STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY'), 
+STRIPE_PUBLIC_KEY = os.environ.get('STRIPE_PUBLIC_KEY')
+STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY')
 
 
 

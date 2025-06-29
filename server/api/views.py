@@ -115,7 +115,7 @@ class FoodAPIView(APIView):
         serializer = FoodSerializer(foods, many=True)
         return Response({"data": serializer.data}, status=status.HTTP_200_OK)
 
-    def post(self, request):
+    # def post(self, request):
         data = request.data.copy()
         img = request.FILES.get('img')
 
@@ -142,6 +142,59 @@ class FoodAPIView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
+    def resize_image(self, img):
+        with Image.open(img) as img_file:
+            resized_img = img_file.resize((300, 300))
+            img_io = BytesIO()
+            resized_img.save(img_io, format='JPEG')
+            img_io.seek(0)
+            return InMemoryUploadedFile(
+                img_io,
+                None,
+                'resized_img.jpg',
+                'image/jpeg',
+                img_io.getbuffer().nbytes,
+                None
+            )
+
+    def post(self, request):
+        data = request.data
+
+        # Handle bulk data
+        if isinstance(data, list):
+            new_data = []
+            for i, item in enumerate(data):
+                item_data = item.copy()
+
+                # Handle image for each item (e.g., image0, image1, etc.)
+                image_file = request.FILES.get(f'image{i}')
+                if image_file:
+                    resized_image = self.resize_image(image_file)
+                    item_data['image'] = resized_image
+
+                new_data.append(item_data)
+
+            serializer = FoodSerializer(data=new_data, many=True)
+        else:
+            # Handle single item
+            item_data = data.copy()
+            image_file = request.FILES.get('image') or request.FILES.get('img')
+            if image_file:
+                resized_image = self.resize_image(image_file)
+                item_data['image'] = resized_image
+
+            serializer = FoodSerializer(data=item_data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    
+    
+    
 
 class FoodDetailAPIView(APIView):
     def get(self, request, pk):

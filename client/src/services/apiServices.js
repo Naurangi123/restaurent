@@ -3,7 +3,7 @@ import { ACCESS_TOKEN } from '../constants';
 import axiosInstance from './axiosInstance';
 import axios from 'axios';
 
-const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8003';
+const apiUrl = import.meta.env.VITE_API_URL || 'https://restaurent-8fsw.onrender.com';
 
 const getData = async (url) => {
   try {

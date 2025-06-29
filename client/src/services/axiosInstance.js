@@ -2,7 +2,7 @@ import axios from 'axios';
 import { ACCESS_TOKEN, REFRESH_TOKEN } from '../constants';
 import { tokenRefresh } from './apiServices';
 
-const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8003';
+const apiUrl = import.meta.env.VITE_API_URL || 'https://restaurent-8fsw.onrender.com';
 
 const axiosInstance = axios.create({
   baseURL: apiUrl,
